@@ -1,9 +1,9 @@
-﻿using RogueTutorial;
+﻿using Main;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CSharpRogueTutorial
+namespace rougeLike
 {
     [Serializable]
     class Tile
@@ -11,21 +11,23 @@ namespace CSharpRogueTutorial
         public bool blocked;
         public bool explored;
         public bool visited;
+        public bool corridor;
 
-        public Tile(bool Blocked)
+        public Tile(bool Blocked, bool _corridor)
         {
+            _corridor = corridor;
             blocked = Blocked;
             explored = false;
             visited = false;
         }
     }
 
-    class Coordinate
+    class Vector2
     {
         public int x;
         public int y;
 
-        public Coordinate(int X, int Y)
+        public Vector2(int X, int Y)
         {
             x = X;
             y = Y;
@@ -47,12 +49,12 @@ namespace CSharpRogueTutorial
             endY = Y + Height;
         }
 
-        internal Coordinate Center()
+        internal Vector2 Center()
         {
             int centerX = (startX + endX) / 2;
             int centerY = (startY + endY) / 2;
 
-            return new Coordinate(centerX, centerY);
+            return new Vector2(centerX, centerY);
         }
 
         internal bool Intersect(Room otherRoom)
@@ -67,19 +69,19 @@ namespace CSharpRogueTutorial
 
         public static GameMap MakeMap()
         {
-            Tile[,] tiles = BlankTiles(true);
+            Tile[,] tiles = BlankTiles(true, false);
 
             List<Room> roomList = new List<Room>();
 
-            int roomCount = 0;
+            int roomIndex = 0;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < Constants.roomCount; i++)
             {
                 int width = rand.Next(5, 10);
                 int height = rand.Next(5, 10);
 
-                int x = rand.Next(0, Constants.MapWidth - width - 1);
-                int y = rand.Next(0, Constants.MapHeight - height - 1);
+                int x = rand.Next(0, Constants.mapWidth - width - 1);
+                int y = rand.Next(0, Constants.mapHeight - height - 1);
 
                 Room newRoom = new Room(x, y, width, height);
 
@@ -87,17 +89,17 @@ namespace CSharpRogueTutorial
                 {
                     CreateRoom(newRoom, ref tiles);
 
-                    Coordinate newCenter = newRoom.Center();
+                    Vector2 newCenter = newRoom.Center();
                     
 
-                    if (roomCount == 0)
+                    if (roomIndex == 0)
                     {
                         Rogue.GameWorld.Player.x = newCenter.x;
                         Rogue.GameWorld.Player.y = newCenter.y;
                     }
                     else
                     {
-                        Coordinate previousCenter = roomList[roomCount - 1].Center();
+                        Vector2 previousCenter = roomList[roomIndex - 1].Center();
 
                         if (rand.Next(0, 2) == 0)
                         {
@@ -111,7 +113,7 @@ namespace CSharpRogueTutorial
                         }
                     }
                     roomList.Add(newRoom);
-                    roomCount += 1;
+                    roomIndex += 1;
                 }
             }
 
@@ -149,83 +151,42 @@ namespace CSharpRogueTutorial
 
         private static void CreateHorizontalTunnel(int x1, int x2, int y, ref Tile[,] tiles)
         {
-            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 1; x++)
+            for (int x = Math.Min(x1, x2); x < Math.Max(x1, x2) + 2; x++)
             {
-                tiles[x, y].blocked = false;
+                // Add a second row. Makes the corridoors twice the width
+                for (int i = 0; i < 2; i++)
+                {
+                    tiles[x + i, y].corridor = true;
+                    tiles[x + i, y].blocked = false;
+                }
             }
         }
 
         private static void CreateVerticalTunnel(int y1, int y2, int x, ref Tile[,] tiles)
         {
-            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 1; y++)
+            for (int y = Math.Min(y1, y2); y < Math.Max(y1, y2) + 2; y++)
             {
-                tiles[x, y].blocked = false;
+                for (int i = 0; i < 2; i++)
+                {
+                    tiles[x+i, y].corridor = true;
+                    tiles[x+i, y].blocked = false;
+                }
             }
         }
 
-        private static Tile[,] BlankTiles(bool Blocked)
+        private static Tile[,] BlankTiles(bool blocked, bool corridor)
         {
-            Tile[,] map = new Tile[Constants.MapWidth, Constants.MapHeight];
+            Tile[,] map = new Tile[Constants.mapWidth, Constants.mapHeight];
 
-            for (int x = 0; x < Constants.MapWidth; x++)
+            for (int x = 0; x < Constants.mapWidth; x++)
             {
-                for (int y = 0; y < Constants.MapHeight; y++)
+                for (int y = 0; y < Constants.mapHeight; y++)
                 {
-                    map[x, y] = new Tile(Blocked);
+                    map[x, y] = new Tile(blocked, corridor);
                 }
             }
 
             return map;
-        }
-
-        public static GameMap MakeMaze()
-        {
-            Tile[,] tiles = BlankTiles(true);
-
-            for (int x = 0; x < Constants.MapWidth - 1; x++)
-            {
-                for (int y = 0; y < Constants.MapHeight - 1; y++)
-                {
-                    if (x % 2 != 0 && y % 2 != 0)
-                    {
-                        tiles[x, y] = new Tile(false);
-                    }
-                }
-            }
-
-            CarveMaze(1, 1, ref tiles);
-
-            Rogue.GameWorld.Player.x = 1;
-            Rogue.GameWorld.Player.y = 1;
-
-            return new GameMap(tiles);
-        }
-
-        public static void CarveMaze(int startx, int starty, ref Tile[,] tiles)
-        {
-            tiles[startx, starty].visited = true;
-
-            foreach (Coordinate tile in GetMazeNeighbours(startx, starty))
-            {
-                if (tiles[tile.x, tile.y].visited == false)
-                {
-                    tiles[(tile.x + startx) / 2, (tile.y + starty) / 2].blocked = false;
-
-                    CarveMaze(tile.x, tile.y, ref tiles);
-                }
-            }
-        }
-
-        public static List<Coordinate> GetMazeNeighbours(int x, int y)
-        {
-            List<Coordinate> neighbours = new List<Coordinate>();
-
-            if (x - 2 >= 0) neighbours.Add(new Coordinate(x - 2, y));
-            if (x + 2 <= Constants.MapWidth - 2) neighbours.Add(new Coordinate(x + 2, y));
-            if (y - 2 >= 0) neighbours.Add(new Coordinate(x, y - 2));
-            if (y + 2 <= Constants.MapHeight - 2) neighbours.Add(new Coordinate(x, y + 2));
-
-            return neighbours.OrderBy(a => rand.Next()).ToList();
         }
 
         public static bool MapBlocked(int x, int y)

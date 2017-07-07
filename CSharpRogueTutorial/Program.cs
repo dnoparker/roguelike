@@ -1,9 +1,9 @@
-﻿using CSharpRogueTutorial;
+﻿using rougeLike;
 using System.Collections.Generic;
 using BearLib;
 using System;
 
-namespace RogueTutorial
+namespace Main
 {
     class Rogue
     {
@@ -12,7 +12,7 @@ namespace RogueTutorial
         private static void Initialize()
         {
             Terminal.Open();
-            Terminal.Set("window: size=" + Constants.ScreenWidth.ToString() + "x" + Constants.ScreenHeight.ToString() + "; font: VeraMono.ttf, size=12");
+            Terminal.Set("window: size=" + Constants.screenWidth.ToString() + "x" + Constants.screenHeight.ToString() + "; font: VeraMono.ttf, size=10");
         }
 
         private static void NewGame()
@@ -21,7 +21,7 @@ namespace RogueTutorial
 
             GameWorld.Objects = new List<GameObject>();
 
-            GameWorld.Player = new GameObject('@', "red", 0, 0);
+            GameWorld.Player = new GameObject('@', "yellow", 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Map = MapMethods.MakeMap();

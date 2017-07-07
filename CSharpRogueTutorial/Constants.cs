@@ -1,11 +1,15 @@
-﻿namespace CSharpRogueTutorial
+﻿namespace rougeLike
 {
     class Constants
     {
-        public const int ScreenWidth = 80;
-        public const int ScreenHeight = 30;
+        public const int screenWidth = 80;
+        public const int screenHeight = 30;
 
-        public const int MapWidth = 80;
-        public const int MapHeight = 30;
+        public const int mapWidth = 50;
+        public const int mapHeight = 30;
+
+        public const int roomCount = 20;
+        
+
     }
 }

@@ -1,19 +1,19 @@
 ﻿using BearLib;
-using RogueTutorial;
+using Main;
 
-namespace CSharpRogueTutorial
+namespace rougeLike
 {
     class Rendering
     {
         private static void DrawMap()
         {
-            for (int x = 0; x < Constants.MapWidth; x++)
+            for (int x = 0; x < Constants.mapWidth; x++)
             {
-                for (int y = 0; y < Constants.MapHeight; y++)
+                for (int y = 0; y < Constants.mapHeight; y++)
                 {
                     if (Rogue.GameWorld.Map.tiles[x, y].blocked)
                     {
-                        Terminal.PutExt(x, y, 0, 0, '■');
+                        Terminal.PutExt(x, y, 0, 0, '#');
                         // If floor above/below
 
                         if (y != 0)
@@ -25,7 +25,7 @@ namespace CSharpRogueTutorial
                             }
                         }
 
-                        if (y != Constants.MapHeight - 1)
+                        if (y != Constants.mapHeight - 1)
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y + 1].blocked)
                             {
@@ -43,7 +43,7 @@ namespace CSharpRogueTutorial
                             }
                         }
 
-                        if (x != Constants.MapWidth - 1)
+                        if (x != Constants.mapWidth - 1)
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked)
                             {
@@ -53,7 +53,7 @@ namespace CSharpRogueTutorial
                         }
                     done:
                         // Check for blank tiles up and down 
-                        if (y != 0 && y != Constants.MapHeight - 1)
+                        if (y != 0 && y != Constants.mapHeight - 1)
                         {
                             if(!Rogue.GameWorld.Map.tiles[x, y + 1].blocked && !Rogue.GameWorld.Map.tiles[x, y - 1].blocked)
                             {
@@ -63,7 +63,7 @@ namespace CSharpRogueTutorial
                         }
 
                         // same for x
-                        if (x != 0 && x != Constants.MapWidth - 1)
+                        if (x != 0 && x != Constants.mapWidth - 1)
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked && !Rogue.GameWorld.Map.tiles[x - 1, y].blocked)
                             {
@@ -75,6 +75,11 @@ namespace CSharpRogueTutorial
 
                     }
                     else
+                    {
+                        Terminal.PutExt(x, y, 0, 0, ' ');
+                    }
+
+                    if(Rogue.GameWorld.Map.tiles[x, y].corridor)
                     {
                         Terminal.PutExt(x, y, 0, 0, ' ');
                     }

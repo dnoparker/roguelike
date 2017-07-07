@@ -1,8 +1,8 @@
 ﻿using BearLib;
-using RogueTutorial;
+using Main;
 using System.Linq;
 
-namespace CSharpRogueTutorial
+namespace rougeLike
 {
     class Controls
     {

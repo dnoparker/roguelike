@@ -1,8 +1,8 @@
 ﻿using BearLib;
-using RogueTutorial;
+using Main;
 using System;
 
-namespace CSharpRogueTutorial
+namespace rougeLike
 {
     [Serializable]
     class GameObject
