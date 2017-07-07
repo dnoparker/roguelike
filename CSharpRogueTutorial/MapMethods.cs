@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using tools;
 
 namespace rougeLike
 {
@@ -19,18 +20,6 @@ namespace rougeLike
             blocked = Blocked;
             explored = false;
             visited = false;
-        }
-    }
-
-    class Vector2
-    {
-        public int x;
-        public int y;
-
-        public Vector2(int X, int Y)
-        {
-            x = X;
-            y = Y;
         }
     }
 
@@ -94,8 +83,8 @@ namespace rougeLike
 
                     if (roomIndex == 0)
                     {
-                        Rogue.GameWorld.Player.x = newCenter.x;
-                        Rogue.GameWorld.Player.y = newCenter.y;
+                        Rogue.GameWorld.Player.position.x = newCenter.x;
+                        Rogue.GameWorld.Player.position.y = newCenter.y;
                     }
                     else
                     {

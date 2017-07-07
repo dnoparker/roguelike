@@ -9,7 +9,5 @@
         public const int mapHeight = 30;
 
         public const int roomCount = 20;
-        
-
     }
 }
