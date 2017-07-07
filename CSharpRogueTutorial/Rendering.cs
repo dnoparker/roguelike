@@ -1,7 +1,9 @@
 ﻿using BearLib;
+using tools;
 using Main;
+using System;
 
-namespace rougeLike
+namespace CSharpRogueTutorial
 {
     class Rendering
     {
@@ -57,7 +59,7 @@ namespace rougeLike
                         {
                             if(!Rogue.GameWorld.Map.tiles[x, y + 1].blocked && !Rogue.GameWorld.Map.tiles[x, y - 1].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, ' ');
+                                setToFloor(x, y, ' ');
                                 Rogue.GameWorld.Map.tiles[x, y].blocked = false;
                             }
                         }
@@ -67,7 +69,7 @@ namespace rougeLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked && !Rogue.GameWorld.Map.tiles[x - 1, y].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, ' ');
+                                setToFloor(x, y, ' ');
                                 Rogue.GameWorld.Map.tiles[x, y].blocked = false;
                             }
                         }
@@ -76,13 +78,9 @@ namespace rougeLike
                     }
                     else
                     {
-                        Terminal.PutExt(x, y, 0, 0, ' ');
+                        setToFloor(x, y, ' ');
                     }
 
-                    if(Rogue.GameWorld.Map.tiles[x, y].corridor)
-                    {
-                        Terminal.PutExt(x, y, 0, 0, ' ');
-                    }
                 }
             }
         }
@@ -100,10 +98,24 @@ namespace rougeLike
             Terminal.Clear();
 
             DrawMap();
-
             DrawObjects();
+            drawFootPrints();
 
             Terminal.Refresh();
+        }
+
+        private static void drawFootPrints()
+        {
+            foreach (floorTile item in Rogue.GameWorld.Map.floorTiles)
+            {
+                item.footprint();
+            }
+        }
+
+        public static void setToFloor(int x, int y, char floorCharacter)
+        {
+            Rogue.GameWorld.Map.floorTiles.Add(new floorTile(floorTile.type.soil, new tools.Vector2(x, y)));
+            Terminal.PutExt(x, y, 0, 0, floorCharacter);
         }
     }
 }

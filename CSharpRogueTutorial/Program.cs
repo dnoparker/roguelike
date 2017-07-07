@@ -1,4 +1,4 @@
-﻿using rougeLike;
+﻿using CSharpRogueTutorial;
 using System.Collections.Generic;
 using BearLib;
 using System;
@@ -21,7 +21,7 @@ namespace Main
 
             GameWorld.Objects = new List<GameObject>();
 
-            GameWorld.Player = new GameObject('@', "yellow", new tools.Vector2(0,0));
+            GameWorld.Player = new GameObject('@', "yellow", 0, 0);
             GameWorld.Objects.Add(GameWorld.Player);
 
             GameWorld.Map = MapMethods.MakeMap();

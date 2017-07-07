@@ -2,7 +2,7 @@
 using Main;
 using System.Linq;
 
-namespace rougeLike
+namespace CSharpRogueTutorial
 {
     class Controls
     {

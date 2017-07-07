@@ -3,20 +3,22 @@ using tools;
 using Main;
 using System;
 
-namespace rougeLike
+namespace CSharpRogueTutorial
 {
-    // Store everything that makes a gameobject what it is
-
     [Serializable]
     class GameObject
     {
         public char tile;
         public string color;
-        public Vector2 position;
+        public int x;
+        public int y;
+        public Vector2 previousPosition;
 
-        public GameObject(char Tile, string Color, Vector2 Pos)
+        public GameObject(char Tile, string Color, int X, int Y)
         {
-            position = Pos;
+            x = X;
+            y = Y;
+            previousPosition = new Vector2(x, y);
             tile = Tile;
             color = Color;
         }
@@ -24,16 +26,24 @@ namespace rougeLike
         internal void Draw()
         {
             Terminal.Color(Terminal.ColorFromName(color));
-            Terminal.PutExt(position.x,position.y, 0, 0, tile);
+            Terminal.PutExt(x, y, 0, 0, tile);
             Terminal.Color(Terminal.ColorFromName("white"));
         }
 
-        internal void Move(int x, int y)
+        internal void Move(int dx, int dy)
         {
-            if (!MapMethods.MapBlocked(position.x + x, position.y + y))
+            previousPosition = new Vector2(x, y);
+            if (!MapMethods.MapBlocked(x + dx, y + dy))
             {
-                position.x += x;
-                position.y += y;
+                for (int i = 0; i < Rogue.GameWorld.Map.floorTiles.Count; i++)
+                {
+                    if(Vector2.vector2AreEqual(Rogue.GameWorld.Map.floorTiles[i].position, new Vector2(x, y)))
+                    {
+                        Rogue.GameWorld.Map.floorTiles[i].footprint();
+                    }
+                }
+                x += dx;
+                y += dy;
             }
         }
     }

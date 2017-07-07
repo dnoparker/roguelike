@@ -1,10 +1,11 @@
 ﻿using Main;
+using tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using tools;
+using BearLib;
 
-namespace rougeLike
+namespace CSharpRogueTutorial
 {
     [Serializable]
     class Tile
@@ -20,6 +21,31 @@ namespace rougeLike
             blocked = Blocked;
             explored = false;
             visited = false;
+        }
+    }
+
+    [Serializable]
+    class floorTile: IFloor
+    {
+        public enum type { concrete, soil}
+        public type floorType;
+        public Vector2 position;
+
+        public floorTile (type _floorType, Vector2 _position)
+        {
+            position = _position;
+            floorType = _floorType;
+        }
+
+        public void footprint()
+        {
+            Vector2 playerPos = new Vector2(Rogue.GameWorld.Player.previousPosition.x, Rogue.GameWorld.Player.previousPosition.y);
+            if (tools.Vector2.vector2AreEqual(playerPos, position))
+            {
+                Terminal.Color(Terminal.ColorFromName("white"));
+                Terminal.PutExt(position.x, position.y, 0, 0, 'R');
+                Terminal.Color(Terminal.ColorFromName("white"));
+            }
         }
     }
 
@@ -83,8 +109,8 @@ namespace rougeLike
 
                     if (roomIndex == 0)
                     {
-                        Rogue.GameWorld.Player.position.x = newCenter.x;
-                        Rogue.GameWorld.Player.position.y = newCenter.y;
+                        Rogue.GameWorld.Player.x = newCenter.x;
+                        Rogue.GameWorld.Player.y = newCenter.y;
                     }
                     else
                     {
