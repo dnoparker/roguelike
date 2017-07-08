@@ -22,9 +22,9 @@ namespace Main
             GameWorld.Objects = new List<GameObject>();
 
             GameWorld.Player = new GameObject('@', "yellow", new tools.Vector2(0,0));
-            GameWorld.debugPath = new GameObject('X', "red", new tools.Vector2(0, 0));
+            GameWorld.Enemy = new humanoid('X', "red", new tools.Vector2(0, 0));
             GameWorld.Objects.Add(GameWorld.Player);
-            GameWorld.Objects.Add(GameWorld.debugPath);
+            GameWorld.Objects.Add(GameWorld.Enemy);
 
             GameWorld.Map = MapMethods.MakeMap();
         }
@@ -33,7 +33,7 @@ namespace Main
         {
             while (true)
             {
-                Rendering.RenderAll();
+                Rendering.UpdateAndRender();
 
                 bool exit = Controls.HandleKeys();
 

@@ -53,6 +53,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="humanoid.cs" />
     <Compile Include="interfaces.cs" />
     <Compile Include="MapMethods.cs" />
     <Compile Include="Pathfinding\Node.cs" />

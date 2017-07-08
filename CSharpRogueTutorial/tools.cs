@@ -38,7 +38,7 @@ namespace tools
         public static List<Point> findPath()
         {
             var startLocation = new Point(Rogue.GameWorld.Player.position.x, Rogue.GameWorld.Player.position.y);
-            var endLocation = new Point(Rogue.GameWorld.debugPath.position.x, Rogue.GameWorld.debugPath.position.y);
+            var endLocation = new Point(Rogue.GameWorld.Enemy.position.x, Rogue.GameWorld.Enemy.position.y);
             SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, Rogue.GameWorld.Map.simpleAStarMap);
             PathFinder pathFinder = new PathFinder(searchParameters);
             List<Point> path = pathFinder.FindPath();

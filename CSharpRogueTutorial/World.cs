@@ -8,7 +8,7 @@ namespace CSharpRogueTutorial
     {
         public GameMap Map;
         public GameObject Player;
-        public GameObject debugPath;
+        public humanoid Enemy;
         public List<GameObject> Objects;
 
         public World()

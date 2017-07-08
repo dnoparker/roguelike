@@ -9,7 +9,7 @@ namespace CSharpRogueTutorial
 {
     class Rendering
     {
-        private static void DrawMap()
+        private static void updateMap()
         {
             for (int x = 0; x < Constants.mapWidth; x++)
             {
@@ -87,21 +87,20 @@ namespace CSharpRogueTutorial
             }
         }
 
-        private static void DrawObjects()
+        private static void updateObjects()
         {
             foreach (GameObject obj in Rogue.GameWorld.Objects)
             {
-                obj.Draw();
+                obj.Update();
             }
         }
 
-        public static void RenderAll()
+        public static void UpdateAndRender()
         {
             Terminal.Clear();
 
-            DrawMap();
-            drawPath();
-            DrawObjects();
+            updateMap();
+            updateObjects();
             Terminal.Refresh();
         }
 
@@ -109,15 +108,6 @@ namespace CSharpRogueTutorial
         public static void setToFloor(int x, int y, char floorCharacter)
         {
             Terminal.PutExt(x, y, 0, 0, floorCharacter);
-        }
-
-        public static void drawPath()
-        {
-            List<Point> path = tools.aStar.findPath();
-            for (int i = 0; i < path.Count; i++)
-            {
-                Terminal.PutExt(path[i].X, path[i].Y, 0, 0, '>');
-            }
         }
     }
 }

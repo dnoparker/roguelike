@@ -87,8 +87,6 @@ namespace CSharpRogueTutorial
                     {
                         Rogue.GameWorld.Player.position.x = newCenter.x;
                         Rogue.GameWorld.Player.position.y = newCenter.y;
-                        Rogue.GameWorld.debugPath.position.x = newCenter.x +1;
-                        Rogue.GameWorld.debugPath.position.y = newCenter.y +1;
                     }
                     else
                     {
@@ -109,6 +107,9 @@ namespace CSharpRogueTutorial
                     roomIndex += 1;
                 }
             }
+
+            Rogue.GameWorld.Enemy.position.x = roomList[roomList.Count -1].Center().x;
+            Rogue.GameWorld.Enemy.position.y = roomList[roomList.Count - 1].Center().y;
 
             return new GameMap(tiles);
         }
