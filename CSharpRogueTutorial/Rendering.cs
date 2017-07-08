@@ -1,7 +1,9 @@
 ﻿using BearLib;
 using tools;
 using Main;
+using System.Drawing;
 using System;
+using System.Collections.Generic;
 
 namespace CSharpRogueTutorial
 {
@@ -98,6 +100,7 @@ namespace CSharpRogueTutorial
             Terminal.Clear();
 
             DrawMap();
+            drawPath();
             DrawObjects();
             Terminal.Refresh();
         }
@@ -106,6 +109,15 @@ namespace CSharpRogueTutorial
         public static void setToFloor(int x, int y, char floorCharacter)
         {
             Terminal.PutExt(x, y, 0, 0, floorCharacter);
+        }
+
+        public static void drawPath()
+        {
+            List<Point> path = tools.aStar.findPath();
+            for (int i = 0; i < path.Count; i++)
+            {
+                Terminal.PutExt(path[i].X, path[i].Y, 0, 0, '>');
+            }
         }
     }
 }

@@ -22,7 +22,9 @@ namespace Main
             GameWorld.Objects = new List<GameObject>();
 
             GameWorld.Player = new GameObject('@', "yellow", new tools.Vector2(0,0));
+            GameWorld.debugPath = new GameObject('X', "red", new tools.Vector2(0, 0));
             GameWorld.Objects.Add(GameWorld.Player);
+            GameWorld.Objects.Add(GameWorld.debugPath);
 
             GameWorld.Map = MapMethods.MakeMap();
         }

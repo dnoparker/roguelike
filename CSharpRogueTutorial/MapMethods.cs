@@ -87,6 +87,8 @@ namespace CSharpRogueTutorial
                     {
                         Rogue.GameWorld.Player.position.x = newCenter.x;
                         Rogue.GameWorld.Player.position.y = newCenter.y;
+                        Rogue.GameWorld.debugPath.position.x = newCenter.x +1;
+                        Rogue.GameWorld.debugPath.position.y = newCenter.y +1;
                     }
                     else
                     {

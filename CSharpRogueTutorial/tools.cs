@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using SimpleAStarExample;
+using System.Drawing;
+using Main;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,4 +33,16 @@ namespace tools
         }
     }
 
+    public class aStar
+    {
+        public static List<Point> findPath()
+        {
+            var startLocation = new Point(Rogue.GameWorld.Player.position.x, Rogue.GameWorld.Player.position.y);
+            var endLocation = new Point(Rogue.GameWorld.debugPath.position.x, Rogue.GameWorld.debugPath.position.y);
+            SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, Rogue.GameWorld.Map.simpleAStarMap);
+            PathFinder pathFinder = new PathFinder(searchParameters);
+            List<Point> path = pathFinder.FindPath();
+            return path;
+        }
+    }
 }
