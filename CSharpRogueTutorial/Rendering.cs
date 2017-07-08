@@ -99,22 +99,12 @@ namespace CSharpRogueTutorial
 
             DrawMap();
             DrawObjects();
-            drawFootPrints();
-
             Terminal.Refresh();
         }
 
-        private static void drawFootPrints()
-        {
-            foreach (floorTile item in Rogue.GameWorld.Map.floorTiles)
-            {
-                item.footprint();
-            }
-        }
 
         public static void setToFloor(int x, int y, char floorCharacter)
         {
-            Rogue.GameWorld.Map.floorTiles.Add(new floorTile(floorTile.type.soil, new tools.Vector2(x, y)));
             Terminal.PutExt(x, y, 0, 0, floorCharacter);
         }
     }

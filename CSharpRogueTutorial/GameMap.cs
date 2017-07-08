@@ -9,7 +9,6 @@ namespace CSharpRogueTutorial
     class GameMap
     {
         public Tile[,] tiles;
-        public List<floorTile> floorTiles = new List<floorTile>();
 
         public GameMap(Tile[,] Tiles)
         {

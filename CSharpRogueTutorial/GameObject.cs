@@ -10,15 +10,13 @@ namespace CSharpRogueTutorial
     {
         public char tile;
         public string color;
-        public int x;
-        public int y;
+        public Vector2 position;
         public Vector2 previousPosition;
 
-        public GameObject(char Tile, string Color, int X, int Y)
+        public GameObject(char Tile, string Color, Vector2 Position)
         {
-            x = X;
-            y = Y;
-            previousPosition = new Vector2(x, y);
+            position = Position;
+            previousPosition = Position;
             tile = Tile;
             color = Color;
         }
@@ -26,24 +24,17 @@ namespace CSharpRogueTutorial
         internal void Draw()
         {
             Terminal.Color(Terminal.ColorFromName(color));
-            Terminal.PutExt(x, y, 0, 0, tile);
+            Terminal.PutExt(position.x, position.y, 0, 0, tile);
             Terminal.Color(Terminal.ColorFromName("white"));
         }
 
         internal void Move(int dx, int dy)
         {
-            previousPosition = new Vector2(x, y);
-            if (!MapMethods.MapBlocked(x + dx, y + dy))
+            previousPosition = new Vector2(position.x, position.y);
+            if (!MapMethods.MapBlocked(position.x + dx, position.y + dy))
             {
-                for (int i = 0; i < Rogue.GameWorld.Map.floorTiles.Count; i++)
-                {
-                    if(Vector2.vector2AreEqual(Rogue.GameWorld.Map.floorTiles[i].position, new Vector2(x, y)))
-                    {
-                        Rogue.GameWorld.Map.floorTiles[i].footprint();
-                    }
-                }
-                x += dx;
-                y += dy;
+                position.x += dx;
+                position.y += dy;
             }
         }
     }

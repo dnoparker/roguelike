@@ -10,6 +10,5 @@
 
         public const int roomCount = 20;
         
-
     }
 }
