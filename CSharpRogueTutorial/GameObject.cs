@@ -46,9 +46,5 @@ namespace CSharpRogueTutorial
             Draw();
         }
 
-        public void updatePath()
-        {
-            path = tools.aStar.findPath();
-        }
     }
 }

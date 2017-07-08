@@ -35,10 +35,10 @@ namespace tools
 
     public class aStar
     {
-        public static List<Point> findPath()
+        public static List<Point> findPath(Vector2 startPostion,Vector2 endPosition)
         {
-            var startLocation = new Point(Rogue.GameWorld.Player.position.x, Rogue.GameWorld.Player.position.y);
-            var endLocation = new Point(Rogue.GameWorld.Enemy.position.x, Rogue.GameWorld.Enemy.position.y);
+            var startLocation = new Point(startPostion.x, startPostion.y);
+            var endLocation = new Point(endPosition.x, endPosition.y);
             SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, Rogue.GameWorld.Map.simpleAStarMap);
             PathFinder pathFinder = new PathFinder(searchParameters);
             List<Point> path = pathFinder.FindPath();

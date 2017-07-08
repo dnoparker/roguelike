@@ -15,21 +15,35 @@ namespace CSharpRogueTutorial
 
         }
 
-        public void moveToPath()
+        public void moveToPlayer()
         {
 
             if (path.Count < 0)
             {
                 return;
             }
+            Random rnd = new Random();
+            int dice = rnd.Next(1, 11);
 
+            if (dice == 6)
+            {
+                return;
+            }
             // Store the prevous position and make it not blocked
             //Then block the current position. This stops the player from walking ontop of this gameobject
 
             previousPosition = position;
             Rogue.GameWorld.Map.tiles[position.x, position.y].blocked = false;
-            position.x = path[path.Count -2].X;
-            position.y = path[path.Count -2].Y;
+            if(path.Count-2 < 0)
+            {
+                // Sometimes the path length is only 1 (right next to the player)
+                position.x = path[0].X;
+                position.y = path[0].Y;
+            } else
+            {
+                position.x = path[path.Count - 2].X;
+                position.y = path[path.Count - 2].Y;
+            }
             Rogue.GameWorld.Map.tiles[position.x, position.y].blocked = true;
         }
 
@@ -37,11 +51,14 @@ namespace CSharpRogueTutorial
         public override void Update()
         {
             base.Update(); // Also call gameobjects update function
+            findPath(Rogue.GameWorld.Player.position, position);
+            moveToPlayer();
+        }
 
-            // thinking space.. should I chase the player?
 
-            base.updatePath(); // get a path to player (need to make this explicit)
-            moveToPath(); // Path towards player
+        public void findPath(Vector2 startPosition, Vector2 endPosition)
+        {
+            path = aStar.findPath(startPosition, endPosition);
         }
     }
 }
