@@ -72,6 +72,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="UbuntuMono-R.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="VeraMono.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

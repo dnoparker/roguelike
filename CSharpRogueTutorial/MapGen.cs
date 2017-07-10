@@ -195,14 +195,14 @@ namespace RogueLike
                 {
                     if (Rogue.GameWorld.Map.tiles[x, y].blocked)
                     {
-                        Terminal.PutExt(x, y, 0, 0, '#');
+                        Terminal.PutExt(x, y, 0, 0, '*');
                         // If floor above/below
 
                         if (y != 0)
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y - 1].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '─');
+                                Terminal.PutExt(x, y, 0, 0, '#');
                                 goto done;
                             }
                         }
@@ -211,7 +211,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y + 1].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '─');
+                                Terminal.PutExt(x, y, 0, 0, '#');
                                 goto done;
                             }
                         }
@@ -220,7 +220,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x - 1, y].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '│');
+                                Terminal.PutExt(x, y, 0, 0, '#');
                                 goto done;
                             }
                         }
@@ -229,7 +229,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '│');
+                                Terminal.PutExt(x, y, 0, 0, '#');
                                 goto done;
                             }
                         }

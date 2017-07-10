@@ -2,6 +2,7 @@
 using BearLib;
 using System;
 using System.Numerics;
+using System.Drawing;
 
 namespace RogueLike
 {
@@ -16,7 +17,8 @@ namespace RogueLike
 
             Terminal.Open();
             Terminal.Set("window: size=" + Constants.screenWidth.ToString() + "x" + Constants.screenHeight.ToString() + "; font: VeraMono.ttf, size=10");
-            Terminal.BkColor(System.Drawing.Color.DarkOliveGreen);
+            Terminal.BkColor(Color.FromArgb(255,40,40,60));
+            Terminal.Color(Color.FromArgb(255, 240, 234, 214));
             setUpGame();
             Terminal.Layer(0); // Set map to layer 0
             MapGen.updateMap();
