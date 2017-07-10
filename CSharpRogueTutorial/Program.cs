@@ -9,7 +9,7 @@ namespace RogueLike
     class Rogue
     {
         public static World GameWorld;
-        private static bool battleMode = false;
+        public static bool battleMode = false;
 
         private static void Start()
         {
@@ -43,12 +43,24 @@ namespace RogueLike
             while (true)
             {
                 renderQueue();
+                if (battleMode)
+                {
+                    BattleGrid.Update();
+                    bool quit = BattleGrid.HandleKeys();
+                    if (quit)
+                    {
+                        break;
+                    }
+                    goto end;
+                }
                 bool exit = Controls.HandleKeys();
 
                 if (exit)
                 {
                     break;
                 }
+            end:
+                int t = 0;
             }
 
             Terminal.Close();
@@ -72,9 +84,6 @@ namespace RogueLike
         {
             if (battleMode)
             {
-                Terminal.Layer(2);
-                Terminal.ClearArea(0, 0, Constants.screenWidth, Constants.screenHeight);
-                Terminal.Refresh();
                 return;
             }
             Terminal.ClearArea(0,0,Constants.screenWidth, Constants.screenHeight);

@@ -8,7 +8,7 @@
         public const int mapWidth = 50;
         public const int mapHeight = 30;
 
-        public const int roomCount = 20;
+        public const int roomCount = 30;
         
     }
 }

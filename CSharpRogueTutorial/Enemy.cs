@@ -43,6 +43,8 @@ namespace RogueLike
                 // Sometimes the path length is only 1 (right next to the player)
                 position.X = path[0].X;
                 position.Y = path[0].Y;
+
+                BattleGrid.Start('@', 'G');
             } else
             {
                 position.X = path[path.Count - 2].X;
