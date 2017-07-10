@@ -1,4 +1,4 @@
-﻿namespace CSharpRogueTutorial
+﻿namespace RogueLike
 {
     class Constants
     {

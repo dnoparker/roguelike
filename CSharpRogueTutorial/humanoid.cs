@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using tools;
-using Main;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace CSharpRogueTutorial
+namespace RogueLike
 {
     class humanoid: GameObject
     {
@@ -35,6 +34,10 @@ namespace CSharpRogueTutorial
 
             previousPosition = position;
             Rogue.GameWorld.Map.tiles[(int)position.X, (int)position.Y].blocked = false;
+            if(path.Count == 0)
+            {
+                return;
+            }
             if(path.Count-2 < 0)
             {
                 // Sometimes the path length is only 1 (right next to the player)

@@ -1,11 +1,10 @@
 ﻿using BearLib;
-using Main;
 using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace CSharpRogueTutorial
+namespace RogueLike
 {
     [Serializable]
     class GameObject
@@ -34,7 +33,7 @@ namespace CSharpRogueTutorial
        public virtual void Move(int dx, int dy)
         {
             previousPosition = new Vector2(position.X, position.Y);
-            if (!MapMethods.MapBlocked((int)position.X + dx, (int)position.Y + dy))
+            if (!MapGen.isMapBlocked((int)position.X + dx, (int)position.Y + dy))
             {
                 position.X += dx;
                 position.Y += dy;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CSharpRogueTutorial
+namespace RogueLike
 {
     [Serializable]
     class World

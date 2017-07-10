@@ -58,15 +58,13 @@
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="humanoid.cs" />
-    <Compile Include="interfaces.cs" />
-    <Compile Include="MapMethods.cs" />
+    <Compile Include="MapGen.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\NodeState.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Pathfinding\SearchParameters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rendering.cs" />
     <Compile Include="tools.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>

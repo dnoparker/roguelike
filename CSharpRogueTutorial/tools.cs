@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SimpleAStarExample;
 using System.Drawing;
-using Main;
+using RogueLike;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
