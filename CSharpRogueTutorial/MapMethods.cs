@@ -1,7 +1,7 @@
 ﻿using Main;
-using tools;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Linq;
 using BearLib;
 
@@ -86,8 +86,8 @@ namespace CSharpRogueTutorial
 
                     if (roomIndex == 0)
                     {
-                        Rogue.GameWorld.Player.position.x = newCenter.x;
-                        Rogue.GameWorld.Player.position.y = newCenter.y;
+                        Rogue.GameWorld.Player.position.X = newCenter.X;
+                        Rogue.GameWorld.Player.position.Y = newCenter.Y;
                     }
                     else
                     {
@@ -95,13 +95,13 @@ namespace CSharpRogueTutorial
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y, ref tiles);
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x, ref tiles);
+                            CreateHorizontalTunnel((int)previousCenter.X, (int)newCenter.X, (int)previousCenter.Y, ref tiles);
+                            CreateVerticalTunnel((int)previousCenter.Y, (int)newCenter.Y, (int)newCenter.X, ref tiles);
                         }
                         else
                         {
-                            CreateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, ref tiles);
-                            CreateHorizontalTunnel(previousCenter.x, newCenter.x, newCenter.y, ref tiles);
+                            CreateVerticalTunnel((int)previousCenter.Y, (int)newCenter.Y, (int)previousCenter.X, ref tiles);
+                            CreateHorizontalTunnel((int)previousCenter.Y, (int)newCenter.X, (int)newCenter.Y, ref tiles);
                         }
                     }
                     roomList.Add(newRoom);
@@ -109,8 +109,8 @@ namespace CSharpRogueTutorial
                 }
             }
 
-            Rogue.GameWorld.Enemy.position.x = roomList[roomList.Count -1].Center().x;
-            Rogue.GameWorld.Enemy.position.y = roomList[roomList.Count - 1].Center().y;
+            Rogue.GameWorld.Enemy.position.X = roomList[roomList.Count -1].Center().X;
+            Rogue.GameWorld.Enemy.position.Y = roomList[roomList.Count - 1].Center().Y;
 
             return new GameMap(tiles);
         }

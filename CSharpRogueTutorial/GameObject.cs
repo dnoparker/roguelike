@@ -1,9 +1,9 @@
 ﻿using BearLib;
-using tools;
 using Main;
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace CSharpRogueTutorial
 {
@@ -27,17 +27,17 @@ namespace CSharpRogueTutorial
         internal void Draw()
         {
             Terminal.Color(Terminal.ColorFromName(color));
-            Terminal.PutExt(position.x, position.y, 0, 0, tile);
+            Terminal.PutExt((int)position.X, (int)position.Y, 0, 0, tile);
             Terminal.Color(Terminal.ColorFromName("white"));
         }
 
        public virtual void Move(int dx, int dy)
         {
-            previousPosition = new Vector2(position.x, position.y);
-            if (!MapMethods.MapBlocked(position.x + dx, position.y + dy))
+            previousPosition = new Vector2(position.X, position.Y);
+            if (!MapMethods.MapBlocked((int)position.X + dx, (int)position.Y + dy))
             {
-                position.x += dx;
-                position.y += dy;
+                position.X += dx;
+                position.Y += dy;
             }
         }
 

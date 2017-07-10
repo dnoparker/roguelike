@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BearLib;
 using System;
+using System.Numerics;
 
 namespace Main
 {
@@ -21,8 +22,8 @@ namespace Main
 
             GameWorld.Objects = new List<GameObject>();
 
-            GameWorld.Player = new GameObject('@', "yellow", new tools.Vector2(0,0));
-            GameWorld.Enemy = new humanoid('X', "red", new tools.Vector2(0, 0));
+            GameWorld.Player = new GameObject('@', "yellow", new Vector2(0,0));
+            GameWorld.Enemy = new humanoid('X', "red", new Vector2(0, 0));
             GameWorld.Objects.Add(GameWorld.Player);
             GameWorld.Objects.Add(GameWorld.Enemy);
 

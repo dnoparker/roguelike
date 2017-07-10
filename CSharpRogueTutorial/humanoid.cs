@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using tools;
 using Main;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace CSharpRogueTutorial
@@ -33,18 +34,18 @@ namespace CSharpRogueTutorial
             //Then block the current position. This stops the player from walking ontop of this gameobject
 
             previousPosition = position;
-            Rogue.GameWorld.Map.tiles[position.x, position.y].blocked = false;
+            Rogue.GameWorld.Map.tiles[(int)position.X, (int)position.Y].blocked = false;
             if(path.Count-2 < 0)
             {
                 // Sometimes the path length is only 1 (right next to the player)
-                position.x = path[0].X;
-                position.y = path[0].Y;
+                position.X = path[0].X;
+                position.Y = path[0].Y;
             } else
             {
-                position.x = path[path.Count - 2].X;
-                position.y = path[path.Count - 2].Y;
+                position.X = path[path.Count - 2].X;
+                position.Y = path[path.Count - 2].Y;
             }
-            Rogue.GameWorld.Map.tiles[position.x, position.y].blocked = true;
+            Rogue.GameWorld.Map.tiles[(int)position.X, (int)position.Y].blocked = true;
         }
 
         // This is called every movement made
