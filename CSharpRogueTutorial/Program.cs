@@ -8,24 +8,29 @@ namespace RogueLike
     class Rogue
     {
         public static World GameWorld;
+        private static bool battleMode = false;
 
         private static void Start()
         {
+            GameWorld = new World();
+
             Terminal.Open();
             Terminal.Set("window: size=" + Constants.screenWidth.ToString() + "x" + Constants.screenHeight.ToString() + "; font: VeraMono.ttf, size=10");
             Terminal.BkColor(System.Drawing.Color.DarkOliveGreen);
-            setUp();
-            Terminal.Layer(0);
+            setUpGame();
+            Terminal.Layer(0); // Set map to layer 0
             MapGen.updateMap();
-            Terminal.Layer(1);
+            Terminal.Layer(2);
+            GameWorld.battleGrid = new BattleGrid();
+            Terminal.Layer(1); // Gamobjects to layer 1
+
         }
 
-        private static void setUp()
+        private static void setUpGame()
         {
-            GameWorld = new World();
             GameWorld.Objects = new List<GameObject>();
             GameWorld.Player = new GameObject('@', "yellow", new Vector2(0,0));
-            GameWorld.Enemy = new humanoid('X', "red", new Vector2(0, 0));
+            GameWorld.Enemy = new Enemy('X', "red", new Vector2(0, 0));
             GameWorld.Objects.Add(GameWorld.Player);
             GameWorld.Objects.Add(GameWorld.Enemy);
             GameWorld.Map = MapGen.MakeMap();
@@ -36,7 +41,6 @@ namespace RogueLike
             while (true)
             {
                 renderQueue();
-                Console.WriteLine();
                 bool exit = Controls.HandleKeys();
 
                 if (exit)
@@ -64,6 +68,13 @@ namespace RogueLike
 
         public static void renderQueue()
         {
+            if (battleMode)
+            {
+                Terminal.Layer(2);
+                Terminal.ClearArea(0, 0, Constants.screenWidth, Constants.screenHeight);
+                Terminal.Refresh();
+                return;
+            }
             Terminal.ClearArea(0,0,Constants.screenWidth, Constants.screenHeight);
             updateObjects();
             Terminal.Refresh();

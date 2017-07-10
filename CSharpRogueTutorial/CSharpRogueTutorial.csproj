@@ -52,12 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleGrid.cs" />
     <Compile Include="BearLibTerminal.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="GameMap.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="humanoid.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="MapGen.cs" />
     <Compile Include="Pathfinding\Node.cs" />
     <Compile Include="Pathfinding\NodeState.cs" />

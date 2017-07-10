@@ -13,7 +13,6 @@ namespace RogueLike
         public bool explored;
         public bool visited;
         public bool corridor;
-        public bool isFloor;
 
         public Tile(bool Blocked, bool _corridor)
         {

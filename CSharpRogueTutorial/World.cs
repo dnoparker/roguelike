@@ -8,8 +8,9 @@ namespace RogueLike
     {
         public GameMap Map;
         public GameObject Player;
-        public humanoid Enemy;
+        public Enemy Enemy;
         public List<GameObject> Objects;
+        public BattleGrid battleGrid;
 
         public World()
         {

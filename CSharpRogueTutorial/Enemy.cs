@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace RogueLike
 {
-    class humanoid: GameObject
+    class Enemy: GameObject
     {
-        public humanoid(char Tile, string Color, Vector2 Position) : base(Tile, Color, Position)
+        public Enemy(char Tile, string Color, Vector2 Position) : base(Tile, Color, Position)
         {
 
         }
@@ -56,7 +56,10 @@ namespace RogueLike
         {
             base.Update(); // Also call gameobjects update function
             findPath(Rogue.GameWorld.Player.position, position);
-            moveToPlayer();
+            if(path.Count < 6)
+            {
+                moveToPlayer();
+            }
         }
 
 
