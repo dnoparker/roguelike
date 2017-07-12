@@ -22,5 +22,15 @@ namespace tools
             List<Point> path = pathFinder.FindPath();
             return path;
         }
+
+        public static List<Point> findBattlePath(Vector2 startPostion, Vector2 endPosition)
+        {
+            var startLocation = new Point((int)startPostion.X, (int)startPostion.Y);
+            var endLocation = new Point((int)endPosition.X, (int)endPosition.Y);
+            SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, BattleGrid.battleTiles);
+            PathFinder pathFinder = new PathFinder(searchParameters);
+            List<Point> path = pathFinder.FindPath();
+            return path;
+        }
     }
 }

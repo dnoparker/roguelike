@@ -36,6 +36,7 @@ namespace RogueLike
             Rogue.GameWorld.Map.tiles[(int)position.X, (int)position.Y].blocked = false;
             if(path.Count == 0)
             {
+                Rogue.battleMode = true;
                 return;
             }
             if(path.Count-2 < 0)

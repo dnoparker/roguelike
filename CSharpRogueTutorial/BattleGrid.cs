@@ -15,9 +15,10 @@ namespace RogueLike
         public static Vector2 playerPosition;
         public static Vector2 enemyPosition;
         public static Vector2 targetPosition;
+        public static List<Point> path = new List<Point>();
         public enum arrowDirection { up,down,left,right};
         public static arrowDirection arrowDir = arrowDirection.up;
-        public enum battlephase { choose, execute }
+        public enum battlephase { choose, move,drawknock, knock }
         public static battlephase currentPhase = battlephase.choose;
         public static int state = 0;
 
@@ -46,15 +47,18 @@ namespace RogueLike
 
         public static void playerTurn()
         {
-            Console.WriteLine("Player Choosing Attack Direction");
-            targetPosition = enemyPosition;
-            Console.WriteLine(enemyPosition);
             switch (currentPhase)
             {
                 case battlephase.choose:
+                    Console.WriteLine("Choose a direction");
                     drawAttackArrow(enemyPosition);
                     break;
-                case battlephase.execute:
+                case battlephase.move:
+                    drawPath(playerPosition,targetPosition);
+                    break;
+                case battlephase.drawknock:
+                    knockPlayer();
+                    currentPhase = battlephase.knock;
                     break;
                 default:
                     break;
@@ -66,37 +70,51 @@ namespace RogueLike
             Console.WriteLine("Enemy Turn");
         }
 
-        public static void drawAttackArrow(Vector2 targetPosition)
+        public static void drawPath(Vector2 startPosition, Vector2 endPostion)
         {
-            Console.WriteLine("Drawing arrow!");
+            path = tools.aStar.findBattlePath(startPosition, endPostion);
+            Console.WriteLine(path.Count);
+            for (int i = 0; i < path.Count; i++)
+            {
+                Terminal.Color(Color.FromArgb(255, 0, 255, 40));
+                Terminal.PutExt(path[i].X, path[i].Y, 500, 25, '+');
+                Terminal.Color(Color.FromArgb(255, 240, 234, 214));
+            }
+        }
+
+        public static void drawAttackArrow(Vector2 Position)
+        {
 
             switch (arrowDir)
             {
                 case arrowDirection.up:
                     Terminal.Color(Color.FromArgb(255, 0, 255, 40));
-                    Terminal.PutExt((int)targetPosition.X, (int)targetPosition.Y - 1, 500, 25, '>');
+                    Terminal.PutExt((int)Position.X, (int)Position.Y - 1, 500, 25, '>');
+                    targetPosition = new Vector2 ((int)Position.X, (int)Position.Y - 1);
                     Terminal.Color(Color.FromArgb(255, 240, 234, 214));
                     break;
                 case arrowDirection.down:
                     Terminal.Color(Color.FromArgb(255, 0, 255, 40));
-                    Terminal.PutExt((int)targetPosition.X, (int)targetPosition.Y + 1, 500, 25, '>');
+                    Terminal.PutExt((int)Position.X, (int)Position.Y + 1, 500, 25, '>');
+                    targetPosition = new Vector2((int)Position.X, (int)Position.Y - 1);
                     Terminal.Color(Color.FromArgb(255, 240, 234, 214));
                     break;
                 case arrowDirection.left:
                     Terminal.Color(Color.FromArgb(255, 0, 255, 40));
-                    Terminal.PutExt((int)targetPosition.X -1, (int)targetPosition.Y, 500, 25, '>');
+                    Terminal.PutExt((int)Position.X -1, (int)Position.Y, 500, 25, '>');
+                    targetPosition = new Vector2((int)Position.X - 1, (int)Position.Y);
                     Terminal.Color(Color.FromArgb(255, 240, 234, 214));
                     break;
                 case arrowDirection.right:
                     Terminal.Color(Color.FromArgb(255, 0, 255, 40));
-                    Terminal.PutExt((int)targetPosition.X +1, (int)targetPosition.Y, 500, 25, '>');
+                    Terminal.PutExt((int)Position.X +1, (int)Position.Y, 500, 25, '>');
+                    targetPosition = new Vector2((int)Position.X + 1, (int)Position.Y);
                     Terminal.Color(Color.FromArgb(255, 240, 234, 214));
                     break;
                 default:
                     break;
             }
 
-            
         }
 
         public static void Start(char playerCharacter, char enemyCharacter)
@@ -108,8 +126,6 @@ namespace RogueLike
             enemyPosition = new Vector2(10, 8);
             placePlayer(playerPosition);
             placeEnemy(enemyPosition);
-            //drawMap();
-
         }
 
         public static void placePlayer (Vector2 position)
@@ -129,12 +145,6 @@ namespace RogueLike
         public static bool HandleKeys()
         {
             int key = Terminal.Read();
-
-            // WAIT
-            if (key == Terminal.TK_ENTER)
-            {
-                state++;
-            }
 
             switch (currentPhase)
             {
@@ -156,14 +166,38 @@ namespace RogueLike
                         arrowDir = arrowDirection.down;
                     }
 
+                    if (key == Terminal.TK_ENTER)
+                    {
+                        currentPhase = battlephase.move;
+                    }
+
                     break;
-                case battlephase.execute:
+                case battlephase.move:
+                    // MOVE
+                    if (key == Terminal.TK_ENTER)
+                    {
+                        if(path.Count == 0)
+                        {
+                            currentPhase = battlephase.drawknock;
+                        } else
+                        {
+                            Vector2 vec = new Vector2(path[0].X, path[0].Y);
+                            playerPosition = vec;
+                        }
+                    }
+                    break;
+
+                case battlephase.knock:
+                    if (key == Terminal.TK_ENTER)
+                    {
+                        Vector2 vec = new Vector2(path[0].X, path[0].Y);
+                        enemyPosition = vec;
+                    }
+
                     break;
                 default:
                     break;
             }
-
-            //drawAttackArrow(targetPosition);
 
             return false;
         }
@@ -179,7 +213,7 @@ namespace RogueLike
                     Terminal.Color(Color.FromArgb(145, 243, 243, 247));
                     Terminal.PutExt(x, y, 500, 25, 'X');
                     Terminal.Color(Color.FromArgb(255, 240, 234, 214));
-                    battleTiles[x, y] = false;
+                    battleTiles[x, y] = true;
 
                     if (x == 1 || y == 1 || x == 19 || y == 9)
                     {
@@ -187,7 +221,7 @@ namespace RogueLike
                         Terminal.Color(Color.FromArgb(255, 56, 243, 247));
                         Terminal.PutExt(x, y, 500, 25, 'X');
                         Terminal.Color(Color.FromArgb(255, 240, 234, 214));
-                        battleTiles[x, y] = true;
+                        battleTiles[x, y] = false;
                     }
 
                     if (x == 0 || y == 0 || x == 20 || y == 10)
@@ -196,9 +230,37 @@ namespace RogueLike
                         Terminal.Color(Color.FromArgb(255, 255, 50, 40));
                         Terminal.PutExt(x, y, 500, 25, 'X');
                         Terminal.Color(Color.FromArgb(255, 240, 234, 214));
-                        battleTiles[x, y] = false;
+                        battleTiles[x, y] = true;
                     }
                 }
+            }
+        }
+
+        public static void knockPlayer()
+        {
+            Console.Write("got here");
+            if (state % 2 == 0)
+            {
+                //player turn
+                switch (arrowDir)
+                {
+                    case arrowDirection.up:
+                        break;
+                    case arrowDirection.down:
+                        break;
+                    case arrowDirection.left:
+                        Vector2 knock = enemyPosition + (Vector2.UnitX * 2);
+                        drawPath(enemyPosition, knock);
+                        break;
+                    case arrowDirection.right:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                //senemy turn
             }
         }
 
