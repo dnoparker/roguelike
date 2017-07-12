@@ -27,7 +27,7 @@ namespace tools
         {
             var startLocation = new Point((int)startPostion.X, (int)startPostion.Y);
             var endLocation = new Point((int)endPosition.X, (int)endPosition.Y);
-            SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, BattleGrid.battleTiles);
+            SearchParameters searchParameters = new SearchParameters(startLocation, endLocation, BattleGrid.battleTilesPath);
             PathFinder pathFinder = new PathFinder(searchParameters);
             List<Point> path = pathFinder.FindPath();
             return path;
