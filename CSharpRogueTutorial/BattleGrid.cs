@@ -23,13 +23,9 @@ namespace RogueLike
         public static battlephase currentPhase = battlephase.choose;
         public static int state = 0;
         public static int knockPower = 2;
-        public static int dice;
-        public static Random rnd;
 
         public BattleGrid()
         {
-            //drawMap();
-            rnd = new Random();
         }
 
         public static void Update()
@@ -75,12 +71,11 @@ namespace RogueLike
 
         public static void enemyTurn()
         {
-
+            Console.WriteLine("Enemy Turn");
         }
 
         public static void drawPath(Vector2 startPosition, Vector2 endPostion)
         {
-
             path = tools.aStar.findBattlePath(startPosition, endPostion);
             for (int i = 0; i < path.Count; i++)
             {
@@ -272,8 +267,6 @@ namespace RogueLike
 
         public static void knockPlayer()
         {
-            if (state % 2 == 0)
-            {
                 Vector2 knock = Vector2.Zero;
                 //player turn
                 switch (arrowDir)
@@ -298,37 +291,6 @@ namespace RogueLike
                         break;
                 }
             }
-            else
-            {
-                Vector2 knock = Vector2.Zero;
-                //player turn
-                switch (arrowDir)
-                {
-                    case arrowDirection.up:
-                        Console.WriteLine("UP");
-                        knock = playerPosition + (Vector2.UnitY * knockPower);
-                        drawPath(playerPosition, knock);
-                        break;
-                    case arrowDirection.down:
-                        Console.WriteLine("DOWN");
-                        knock = playerPosition - (Vector2.UnitY * knockPower);
-                        drawPath(playerPosition, knock);
-                        break;
-                    case arrowDirection.left:
-                        Console.WriteLine("LEFT");
-                        knock = playerPosition + (Vector2.UnitX * knockPower);
-                        drawPath(playerPosition, knock);
-                        break;
-                    case arrowDirection.right:
-                        Console.WriteLine("RIGHT");
-                        knock = playerPosition - (Vector2.UnitX * knockPower);
-                        drawPath(playerPosition, knock);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
         }
     }
 
@@ -341,4 +303,3 @@ namespace RogueLike
             isDanger = _isDanger;
         }
     }
-}
