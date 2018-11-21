@@ -1,6 +1,5 @@
 ﻿using System;
 using Tools;
-using System.Numerics;
 
 namespace RogueLike
 {
@@ -9,6 +8,11 @@ namespace RogueLike
         public Enemy(char Tile, string Color, Vector2Int Position) : base(Tile, Color, Position)
         {
 
+        }
+
+        public override void Start()
+        {
+            base.Start();
         }
 
         public void MoveToPlayer()
@@ -46,6 +50,7 @@ namespace RogueLike
             if (path.Count < 6)
             {
                 MoveToPlayer();
+                Rogue.EventManager.TriggerEvent(new OnPlayerSpotted("GOBLIN"));
             }
         }
 

@@ -10,6 +10,7 @@ namespace RogueLike
     class Rogue
     {
         public static World GameWorld;
+        public static EventManager EventManager;
 
         static void Main(string[] args)
         {
@@ -20,9 +21,16 @@ namespace RogueLike
         private static void Start()
         {
             GameWorld = new World();
+            EventManager = new EventManager();
+            EventManager.AddListener<OnPlayerSpotted>(Spotted);
             SetUpTerminal();
             SetUpGame();
             DrawMap();
+        }
+
+        private static void Spotted(OnPlayerSpotted value)
+        {
+            Console.WriteLine(value.enemyName);
         }
 
         private static void SetUpTerminal()
