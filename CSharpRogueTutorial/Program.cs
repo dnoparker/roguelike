@@ -26,6 +26,7 @@ namespace RogueLike
             SetUpTerminal();
             SetUpGame();
             DrawMap();
+            StartGameObjects();
         }
 
         private static void Spotted(OnPlayerSpotted value)
@@ -77,6 +78,14 @@ namespace RogueLike
             Terminal.Layer((int)Constants.TerminalLayers.map); // Set map to layer 0
             Terminal.ClearArea(0, 0, Constants.screenWidth, Constants.screenHeight);
             MapGen.DrawMap();
+        }
+
+        private static void StartGameObjects()
+        {
+            foreach (GameObject obj in GameWorld.Objects)
+            {
+                obj.Start();
+            }
         }
 
         private static void UpdateGameObjects()

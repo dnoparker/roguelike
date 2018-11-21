@@ -1,23 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RogueLike
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     public class EventManager
     {
-        public bool LimitQueueProcesing = false;
-        public float QueueProcessTime = 0.0f;
-        private static EventManager s_Instance = null;
-        private Queue m_eventQueue = new Queue();
 
         public delegate void EventDelegate<T>(T e) where T : GameEvent;
         private delegate void EventDelegate(GameEvent e);
 
-        private Dictionary<System.Type, EventDelegate> delegates = new Dictionary<System.Type, EventDelegate>();
-        private Dictionary<System.Delegate, EventDelegate> delegateLookup = new Dictionary<System.Delegate, EventDelegate>();
-        private Dictionary<System.Delegate, System.Delegate> onceLookups = new Dictionary<System.Delegate, System.Delegate>();
+        private Dictionary<Type, EventDelegate> delegates = new Dictionary<Type, EventDelegate>();
+        private Dictionary<Delegate, EventDelegate> delegateLookup = new Dictionary<Delegate, EventDelegate>();
+        private Dictionary<Delegate, Delegate> onceLookups = new Dictionary<Delegate, Delegate>();
 
 
         private EventDelegate AddDelegate<T>(EventDelegate<T> del) where T : GameEvent
@@ -125,38 +119,6 @@ namespace RogueLike
             }
         }
 
-        //Inserts the event into the current queue.
-        public bool QueueEvent(GameEvent evt)
-        {
-            if (!delegates.ContainsKey(evt.GetType()))
-            {
-                Console.WriteLine("EventManager: QueueEvent failed due to no listeners for event: " + evt.GetType());
-                return false;
-            }
-
-            m_eventQueue.Enqueue(evt);
-            return true;
-        }
-
-        //Every update cycle the queue is processed, if the queue processing is limited,
-        //a maximum processing time per update can be set after which the events will have
-        //to be processed next update loop.
-        void Update()
-        {
-            while (m_eventQueue.Count > 0)
-            {
-
-                GameEvent evt = m_eventQueue.Dequeue() as GameEvent;
-                TriggerEvent(evt);
-            }
-        }
-
-        public void OnApplicationQuit()
-        {
-            RemoveAll();
-            m_eventQueue.Clear();
-            s_Instance = null;
-        }
     }
 }
 

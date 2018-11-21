@@ -10,6 +10,6 @@
 
         public const int roomCount = 30;
 
-        public enum TerminalLayers { map, gameobjects }
+        public enum TerminalLayers { map, gameobjects, UI }
     }
 }

@@ -13,6 +13,8 @@ namespace RogueLike
         public override void Start()
         {
             base.Start();
+            color = "#FF5800";
+            Console.WriteLine("RAWWWRRR");
         }
 
         public void MoveToPlayer()

@@ -8,7 +8,7 @@ using Tools;
 namespace RogueLike
 {
     [Serializable]
-    class GameObject
+     class GameObject
     {
         public char tile;
         public string color;
