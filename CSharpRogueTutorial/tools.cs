@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SimpleAStarExample;
 using System.Drawing;
 using RogueLike;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
 
-namespace tools
+namespace Tools
 {
 
-    public class aStar
+    public class AStar
     {
-        public static List<Point> findPath(Vector2 startPostion,Vector2 endPosition)
+        public static List<Point> FindPath(Vector2 startPostion,Vector2 endPosition)
         {
             var startLocation = new Point((int)startPostion.X, (int)startPostion.Y);
             var endLocation = new Point((int)endPosition.X, (int)endPosition.Y);

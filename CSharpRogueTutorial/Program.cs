@@ -10,6 +10,12 @@ namespace RogueLike
     {
         public static World GameWorld;
 
+        static void Main(string[] args)
+        {
+            Start();
+            Update();
+        }
+
         private static void Start()
         {
             GameWorld = new World();
@@ -18,13 +24,13 @@ namespace RogueLike
             Terminal.Set("window: size=" + Constants.screenWidth.ToString() + "x" + Constants.screenHeight.ToString() + "; font: VeraMono.ttf, size=10");
             Terminal.BkColor(Color.FromArgb(255,40,40,60));
             Terminal.Color(Color.FromArgb(255, 240, 234, 214));
-            setUpGame();
+            SetUpGame();
             Terminal.Layer(0); // Set map to layer 0
-            MapGen.updateMap();
+            MapGen.DrawMap();
             Terminal.Layer(1); // Gamobjects to layer 1
         }
 
-        private static void setUpGame()
+        private static void SetUpGame()
         {
             GameWorld.Objects = new List<GameObject>();
             GameWorld.Player = new GameObject('@', "yellow", new Vector2(0,0));
@@ -38,34 +44,33 @@ namespace RogueLike
         {
             while (true)
             {
-                renderQueue();
+                RenderQueue();
+                UpdateGameObjects();
                 Controls.HandleKeys();
             }
-
-            Terminal.Close();
         }
 
-        static void Main(string[] args)
+        public static void RenderQueue()
         {
-            Start();
-            Update();
+            Terminal.ClearArea(0, 0, Constants.screenWidth, Constants.screenHeight);
+            DrawGameObjects();
+            Terminal.Refresh();
         }
 
-        private static void updateObjects()
+        private static void DrawGameObjects()
         {
-            foreach (GameObject obj in Rogue.GameWorld.Objects)
+            foreach (GameObject obj in GameWorld.Objects)
             {
                 obj.Draw();
             }
         }
 
-        public static void renderQueue()
+        private static void UpdateGameObjects()
         {
-            Terminal.ClearArea(0,0,Constants.screenWidth, Constants.screenHeight);
-            updateObjects();
-            Terminal.Refresh();
+            foreach (GameObject obj in GameWorld.Objects)
+            {
+                obj.Update();
+            }
         }
-
-
     }
 }

@@ -27,13 +27,12 @@ namespace RogueLike
         {
             Terminal.Color(Terminal.ColorFromName(color));
             Terminal.PutExt((int)position.X, (int)position.Y, 0, 0, tile);
-            Terminal.Color(Terminal.ColorFromName("white"));
         }
 
        public virtual void Move(int dx, int dy)
         {
             previousPosition = new Vector2(position.X, position.Y);
-            if (!MapGen.isMapBlocked((int)position.X + dx, (int)position.Y + dy))
+            if (!MapGen.IsMapBlocked((int)position.X + dx, (int)position.Y + dy))
             {
                 position.X += dx;
                 position.Y += dy;
@@ -42,7 +41,7 @@ namespace RogueLike
 
         public virtual void Update()
         {
-            Draw();
+
         }
 
     }

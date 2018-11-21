@@ -10,7 +10,7 @@ namespace RogueLike
     class Tile
     {
         public bool blocked;
-        public bool explored;
+        public bool visible;
         public bool visited;
         public bool corridor;
 
@@ -18,7 +18,7 @@ namespace RogueLike
         {
             _corridor = corridor;
             blocked = Blocked;
-            explored = false;
+            visible = false;
             visited = false;
         }
     }
@@ -182,12 +182,12 @@ namespace RogueLike
             return map;
         }
 
-        public static bool isMapBlocked(int x, int y)
+        public static bool IsMapBlocked(int x, int y)
         {
             return Rogue.GameWorld.Map.tiles[x, y].blocked;
         }
 
-        public static void updateMap()
+        public static void DrawMap()
         {
             for (int x = 0; x < Constants.mapWidth; x++)
             {
@@ -195,14 +195,14 @@ namespace RogueLike
                 {
                     if (Rogue.GameWorld.Map.tiles[x, y].blocked)
                     {
-                        Terminal.PutExt(x, y, 0, 0, '*');
+                        Terminal.PutExt(x, y, 0, 0, 'X');
                         // If floor above/below
 
                         if (y != 0)
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y - 1].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '#');
+                                Terminal.PutExt(x, y, 0, 0, '1');
                                 goto done;
                             }
                         }
@@ -211,7 +211,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y + 1].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '#');
+                                Terminal.PutExt(x, y, 0, 0, '2');
                                 goto done;
                             }
                         }
@@ -220,7 +220,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x - 1, y].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '#');
+                                Terminal.PutExt(x, y, 0, 0, '3');
                                 goto done;
                             }
                         }
@@ -229,7 +229,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked)
                             {
-                                Terminal.PutExt(x, y, 0, 0, '#');
+                                Terminal.PutExt(x, y, 0, 0, '4');
                                 goto done;
                             }
                         }
@@ -239,7 +239,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x, y + 1].blocked && !Rogue.GameWorld.Map.tiles[x, y - 1].blocked)
                             {
-                                setToFloor(x, y, ' ');
+                                SetToFloor(x, y, ' ');
                                 Rogue.GameWorld.Map.tiles[x, y].blocked = false;
                             }
                         }
@@ -249,7 +249,7 @@ namespace RogueLike
                         {
                             if (!Rogue.GameWorld.Map.tiles[x + 1, y].blocked && !Rogue.GameWorld.Map.tiles[x - 1, y].blocked)
                             {
-                                setToFloor(x, y, ' ');
+                                SetToFloor(x, y, ' ');
                                 Rogue.GameWorld.Map.tiles[x, y].blocked = false;
                             }
                         }
@@ -258,14 +258,14 @@ namespace RogueLike
                     }
                     else
                     {
-                        setToFloor(x, y, ' ');
+                        SetToFloor(x, y, ' ');
                     }
 
                 }
             }
         }
 
-        public static void setToFloor(int x, int y, char floorCharacter)
+        public static void SetToFloor(int x, int y, char floorCharacter)
         {
             Terminal.PutExt(x, y, 0, 0, floorCharacter);
         }
