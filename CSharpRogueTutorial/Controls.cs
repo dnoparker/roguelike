@@ -1,4 +1,5 @@
 ﻿using BearLib;
+using System;
 using System.Linq;
 
 namespace RogueLike
@@ -9,12 +10,16 @@ namespace RogueLike
         static int[] RightMovement = { Terminal.TK_RIGHT, Terminal.TK_KP_6, Terminal.TK_L };
         static int[] UpMovement = { Terminal.TK_UP, Terminal.TK_KP_8, Terminal.TK_K };
         static int[] DownMovement = { Terminal.TK_DOWN, Terminal.TK_KP_2, Terminal.TK_J };
+        static int mouseX, mouseY;
 
         public static int[] EscapeKeys = { Terminal.TK_ESCAPE };
 
         public static bool HandleKeys()
         {
             int key = Terminal.Read();
+
+            mouseX = Terminal.State(Terminal.TK_MOUSE_X);
+            mouseY = Terminal.State(Terminal.TK_MOUSE_Y);
 
             if (LeftMovement.Contains(key))
             {

@@ -9,6 +9,7 @@
         public const int mapHeight = 30;
 
         public const int roomCount = 30;
-        
+
+        public enum TerminalLayers { map, gameobjects }
     }
 }

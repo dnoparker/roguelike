@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Linq;
 using BearLib;
+using Tools;
 
 namespace RogueLike
 {
@@ -39,12 +40,12 @@ namespace RogueLike
             endY = Y + Height;
         }
 
-        internal Vector2 Center()
+        internal Vector2Int Center()
         {
             int centerX = (startX + endX) / 2;
             int centerY = (startY + endY) / 2;
 
-            return new Vector2(centerX, centerY);
+            return new Vector2Int(centerX, centerY);
         }
 
         internal bool Intersect(Room otherRoom)
@@ -79,27 +80,27 @@ namespace RogueLike
                 {
                     CreateRoom(newRoom, ref tiles);
 
-                    Vector2 newCenter = newRoom.Center();
+                    Vector2Int newCenter = newRoom.Center();
                     
 
                     if (roomIndex == 0)
                     {
-                        Rogue.GameWorld.Player.position.X = newCenter.X;
-                        Rogue.GameWorld.Player.position.Y = newCenter.Y;
+                        Rogue.GameWorld.Player.position.x = newCenter.x;
+                        Rogue.GameWorld.Player.position.y = newCenter.y;
                     }
                     else
                     {
-                        Vector2 previousCenter = roomList[roomIndex - 1].Center();
+                        Vector2Int previousCenter = roomList[roomIndex - 1].Center();
 
                         if (rand.Next(0, 2) == 0)
                         {
-                            CreateHorizontalTunnel((int)previousCenter.X, (int)newCenter.X, (int)previousCenter.Y, ref tiles);
-                            CreateVerticalTunnel((int)previousCenter.Y, (int)newCenter.Y, (int)newCenter.X, ref tiles);
+                            CreateHorizontalTunnel((int)previousCenter.x, (int)newCenter.x, (int)previousCenter.y, ref tiles);
+                            CreateVerticalTunnel((int)previousCenter.y, (int)newCenter.y, (int)newCenter.x, ref tiles);
                         }
                         else
                         {
-                            CreateVerticalTunnel((int)previousCenter.Y, (int)newCenter.Y, (int)previousCenter.X, ref tiles);
-                            CreateHorizontalTunnel((int)previousCenter.Y, (int)newCenter.X, (int)newCenter.Y, ref tiles);
+                            CreateVerticalTunnel((int)previousCenter.y, (int)newCenter.y, (int)previousCenter.x, ref tiles);
+                            CreateHorizontalTunnel((int)previousCenter.y, (int)newCenter.x, (int)newCenter.y, ref tiles);
                         }
                     }
                     roomList.Add(newRoom);
@@ -107,8 +108,8 @@ namespace RogueLike
                 }
             }
 
-            Rogue.GameWorld.Enemy.position.X = roomList[roomList.Count -1].Center().X;
-            Rogue.GameWorld.Enemy.position.Y = roomList[roomList.Count - 1].Center().Y;
+            Rogue.GameWorld.Enemy.position.x = roomList[roomList.Count -1].Center().x;
+            Rogue.GameWorld.Enemy.position.y = roomList[roomList.Count - 1].Center().y;
 
             return new GameMap(tiles);
         }
