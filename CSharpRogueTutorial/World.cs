@@ -10,7 +10,6 @@ namespace RogueLike
         public GameObject Player;
         public Enemy Enemy;
         public List<GameObject> Objects;
-        public BattleGrid battleGrid;
 
         public World()
         {
